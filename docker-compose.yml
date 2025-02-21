@@ -1,52 +1,52 @@
 services:
-  caddy:
-    image: caddy:alpine
-    container_name: caddy
-    ports:
-      - "80:80"
-      - "443:443"
-    volumes:
-      - ./Caddyfile:/etc/caddy/Caddyfile
-    environment:
-      - DOMAIN=example.com                  # 修改为你的根域名
-    restart: always
-
   quay:
     image: "registry:2.8.3"
     container_name: "quay"
-    restart: "always"
+    restart: always
     volumes:
       - "./quay/config.yml:/etc/docker/registry/config.yml"
+    ports:
+      - "5000:5000"
 
   ghcr:
     image: "registry:2.8.3"
     container_name: "ghcr"
-    restart: "always"
+    restart: always
     volumes:
       - "./ghcr/config.yml:/etc/docker/registry/config.yml"
+    ports:
+      - "5001:5000"
 
   gcr:
     image: "registry:2.8.3"
     container_name: "gcr"
-    restart: "always"
+    restart: always
     volumes:
       - "./gcr/config.yml:/etc/docker/registry/config.yml"
+    ports:
+      - "5002:5000"
 
   docker:
     image: "registry:2.8.3"
     container_name: "docker"
-    restart: "always"
+    restart: always
     volumes:
       - "./docker/config.yml:/etc/docker/registry/config.yml"
+    ports:
+      - "5003:5000"
 
   k8s:
     image: "registry:2.8.3"
     container_name: "k8s"
-    restart: "always"
+    restart: always
     volumes:
       - "./k8s/config.yml:/etc/docker/registry/config.yml"
+    ports:
+      - "5004:5000"
 
   ghproxy:
     image: "ghcr.io/sky22333/hub-proxy"
     container_name: "ghproxy"
-    restart: "always"
+    restart: always
+    ports:
+      - "5005:5000"
